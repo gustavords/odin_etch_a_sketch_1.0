@@ -35,9 +35,18 @@ body {
 #grid {
     height: 400px;
     width: 400px;
-    flex: 1;
     background-color: white;
     border: 1px solid green;
+
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    flex: auto;
+}
+
+
+.pixel{
+    flex: 1;
 }
 
 #bottom-btn-container {
@@ -52,4 +61,8 @@ body {
     flex: auto;
     padding: 1em;
     border: 1px dashed purple;
+}
+
+#history-container{
+    background-color: rgb(red, green, blue);
 }

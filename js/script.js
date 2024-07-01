@@ -1,5 +1,7 @@
 //element references
 const gridContainer = document.querySelector(`#grid`);
+let drawableGrid = ``;
+
 
 let grid = {
     height: 400,
@@ -28,9 +30,11 @@ function drawGrid() {
         }
         gridContainer.appendChild(columnClone);
     }
+    drawableGrid = gridContainer.querySelectorAll(`.pixel`); //can only initializes after drawGrid()
+    gridListeners();
 }
 
-function destroyGrid(){
+function destroyGrid() {
     // let pixel = document.querySelectorAll(`.pixel`)
     let pixelColumn = document.querySelectorAll(`.pixel-column`)
     pixelColumn.forEach((column) => {
@@ -52,6 +56,15 @@ function whileMouseDownMoving(target, callback) {
 }
 
 //button functions
+const gridRangeSlider = () => {
+    const slider = document.querySelector(`#range-sl`);
+    const sliderTitle = document.querySelector(`label>span`);
+    sliderTitle.textContent = `${slider.value} x ${slider.value}`;
+    grid.gridSize = slider.value;
+    destroyGrid();
+    drawGrid();
+}
+
 const clearGridBtn = () => {
     drawableGrid.forEach((pixel) => {
         pixel.style.backgroundColor = grid.backgroundColor;
@@ -62,6 +75,7 @@ const brushColorBtn = () => {
     const colorPicker = document.querySelector(`#color-pk`);
     return colorPicker.value;
 }
+
 
 //checkbox actions
 const randomPixelColor = () => {
@@ -90,7 +104,8 @@ const darkenPixelColor = (rgbColor) => {
     return rgb;
 }
 
-//how any brush/coloring interaction works
+
+//brush/coloring interactions
 function colorPixelAction(eventObj) {
     if (eventObj.target.classList[0] == `pixel`) {
         eventObj.target.style.backgroundColor = brushColorBtn();
@@ -104,44 +119,33 @@ function colorPixelAction(eventObj) {
 
 }
 
-drawGrid();
-
-const drawableGrid = gridContainer.querySelectorAll(`.pixel`); //can only initializes after drawGrid()
-
-drawableGrid.forEach((pixel) => {
-    whileMouseDownMoving(pixel, (e) => {
-        colorPixelAction(e);
-    })
-});
-
-const gridRangeSlider = () => {
-    const slider = document.querySelector(`#range-sl`);
-    const sliderTitle = document.querySelector(`label>span`);
-    sliderTitle.textContent = `${slider.value} x ${slider.value}`;
-    grid.gridSize = slider.value;
-    // destroyGrid();
-    // drawGrid();
+function gridListeners() {
+    drawableGrid.forEach((pixel) => {
+        whileMouseDownMoving(pixel, (e) => {
+            colorPixelAction(e);
+        })
+    });
 }
 
-
 //testing
-const buttonArray = document.querySelectorAll(`.btn`);
-buttonArray.forEach((button) => {
-    button.addEventListener(`click`, (e) => {
-        console.log(e.target);
-        console.log(e.target.name);
-        console.log(e.target.value);
-        console.log(e.target.checked);
-        console.log(e.target.color);
+function btnListeners() {
+    const buttonArray = document.querySelectorAll(`.btn`);
+    buttonArray.forEach((button) => {
+        button.addEventListener(`click`, (e) => {
+            console.log(e.target);
+            console.log(e.target.name);
+            console.log(e.target.value);
+            console.log(e.target.checked);
+            console.log(e.target.color);
 
 
-        if (e.target.name == clearGridBtn.name) clearGridBtn();
-        if (e.target.name == gridRangeSlider.name) gridRangeSlider();
+            if (e.target.name == clearGridBtn.name) clearGridBtn();
+            if (e.target.name == gridRangeSlider.name) gridRangeSlider();
 
-
-
-
-
+        });
     });
-});
 
+}
+
+drawGrid();
+btnListeners();
