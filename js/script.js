@@ -1,5 +1,3 @@
-console.log(`i'm here`);
-
 //element references
 const gridContainer = document.querySelector(`#grid`);
 
@@ -32,6 +30,14 @@ function drawGrid() {
     }
 }
 
+function destroyGrid(){
+    // let pixel = document.querySelectorAll(`.pixel`)
+    let pixelColumn = document.querySelectorAll(`.pixel-column`)
+    pixelColumn.forEach((column) => {
+        column.remove();
+    })
+}
+
 function whileMouseDownMoving(target, callback) {
     const endMoving = () => {
         gridContainer.removeEventListener(`mousemove`, callback);
@@ -45,31 +51,6 @@ function whileMouseDownMoving(target, callback) {
     });
 }
 
-
-drawGrid();
-
-const drawableGrid = gridContainer.querySelectorAll(`.pixel`); //only initializes after drawGrid()
-
-drawableGrid.forEach((pixel) => {
-    whileMouseDownMoving(pixel, (e) => {
-        colorPixelAction(e);
-        console.log(e.target);
-    })
-});
-
-function colorPixelAction(eventObj) {
-    if (eventObj.target.classList[0] == `pixel`) {
-        eventObj.target.style.backgroundColor = brushColorBtn();
-    }
-    if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#random-cb`).checked === true) {
-        eventObj.target.style.backgroundColor = randomPixelColor();
-    }
-    if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#darken-cb`).checked === true) {
-        eventObj.target.style.backgroundColor = darkenPixelColor(eventObj.target.style.backgroundColor);
-    }
-
-}
-
 //button functions
 const clearGridBtn = () => {
     drawableGrid.forEach((pixel) => {
@@ -77,7 +58,7 @@ const clearGridBtn = () => {
     });
 };
 
-function brushColorBtn() {
+const brushColorBtn = () => {
     const colorPicker = document.querySelector(`#color-pk`);
     return colorPicker.value;
 }
@@ -87,6 +68,7 @@ const randomPixelColor = () => {
     let randomNum = () => Math.floor(Math.random() * 255);
     return `rgb(${randomNum()} ${randomNum()} ${randomNum()} / 50%)`;
 }
+//does not work
 const darkenPixelColor = (rgbColor) => {
 
     // const getColorValueArray = (color) => {
@@ -108,6 +90,39 @@ const darkenPixelColor = (rgbColor) => {
     return rgb;
 }
 
+//how any brush/coloring interaction works
+function colorPixelAction(eventObj) {
+    if (eventObj.target.classList[0] == `pixel`) {
+        eventObj.target.style.backgroundColor = brushColorBtn();
+    }
+    if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#random-cb`).checked === true) {
+        eventObj.target.style.backgroundColor = randomPixelColor();
+    }
+    if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#darken-cb`).checked === true) {
+        eventObj.target.style.backgroundColor = darkenPixelColor(eventObj.target.style.backgroundColor);
+    }
+
+}
+
+drawGrid();
+
+const drawableGrid = gridContainer.querySelectorAll(`.pixel`); //can only initializes after drawGrid()
+
+drawableGrid.forEach((pixel) => {
+    whileMouseDownMoving(pixel, (e) => {
+        colorPixelAction(e);
+    })
+});
+
+const gridRangeSlider = () => {
+    const slider = document.querySelector(`#range-sl`);
+    const sliderTitle = document.querySelector(`label>span`);
+    sliderTitle.textContent = `${slider.value} x ${slider.value}`;
+    grid.gridSize = slider.value;
+    // destroyGrid();
+    // drawGrid();
+}
+
 
 //testing
 const buttonArray = document.querySelectorAll(`.btn`);
@@ -121,12 +136,9 @@ buttonArray.forEach((button) => {
 
 
         if (e.target.name == clearGridBtn.name) clearGridBtn();
-        if (e.target.name == brushColorBtn.name) {
-            console.log(`yep`);
-            // const colorPicker = document.querySelector(`#color-pk`);
-            // grid.brushColor = colorPicker.value;
-            brushColorBtn();
-        };
+        if (e.target.name == gridRangeSlider.name) gridRangeSlider();
+
+
 
 
 
