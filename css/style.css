@@ -1,20 +1,38 @@
+@font-face {
+    font-family: simple;
+    src: url(../fonts/simple.ttf);
+}
+
 * {
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
-    ;
+    font-family: simple;
 }
 
 body {
     background-color: cornsilk;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 5em 8em;
     gap: 1em;
-    border: 1px black solid;
-    flex: 1 1 0;
+    /* border: 1px black solid; */
+}
+
+body>div {
+    padding: 1em 8em 0em 8em;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+header {
+    margin-top: 1em;
+
 }
 
 #upper-btn-container {
@@ -22,31 +40,27 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 5em;
-    border: 1px solid red;
-    /* flex: 1; */
+    /* border: 1px solid red; */
 }
 
 #upper-btn-container>button {
     /* flex: auto; */
     padding: 1em 2em;
-    border: 1px dashed red;
+    /* border: 1px dashed red; */
 }
 
 #grid {
-    height: 400px;
-    width: 400px;
+    /* height: 400px;
+    width: 400px; */
     background-color: white;
-    border: 1px solid green;
-
+    /* border: 1px solid green; */
     display: flex;
-    /* flex-direction: column; */
     flex-wrap: wrap;
-    flex: auto;
 }
 
-
-.pixel{
+.pixel {
     flex: 1;
+    border-color: red;
 }
 
 #bottom-btn-container {
@@ -54,15 +68,54 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 1em;
-    border: 1px solid purple;
+    flex: 1;
+
 }
 
-#bottom-btn-container>button {
+#bottom-btn-container>label {
     flex: auto;
     padding: 1em;
-    border: 1px dashed purple;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px bisque dashed;
+
 }
 
-#history-container{
-    background-color: rgb(red, green, blue);
+#bottom-btn-container>label:hover {
+    border: 1px purple dashed;
+
+}
+
+label>.bottom-btn {
+    width: 2em;
+    height: 2em;
+}
+
+
+footer {
+    background-color: black;
+    color: aliceblue;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#clear-grid-btn {
+    border: 1px bisque dashed;
+}
+
+#clear-grid-btn:hover {
+    border: 1px purple dashed;
+}
+
+#clear-grid-btn:active {
+    background-color: black;
+    border: 1px bisque dashed;
+    color: white;
+}
+
+a{
+    text-decoration: none;
+    color: white;
 }

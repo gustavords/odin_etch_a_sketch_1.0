@@ -4,21 +4,23 @@ let drawableGrid = ``;
 
 
 let grid = {
-    height: 400,
-    width: 400,
+    height: 450,
+    width: 450,
     gridSize: 16,
     backgroundColor: `white`,
     brushColor: `rgb(0 0 0 / 50%)`,
 }
 
 function drawGrid() {
+    gridContainer.style.width = `${grid.width}px`;
+
     let pixelColumn = document.createElement(`div`);
     pixelColumn.classList.add(`pixel-column`);
     pixelColumn.style.cssText = `flex:1;`;
 
     let pixel = document.createElement(`div`);
     pixel.classList.add(`pixel`);
-    pixel.style.cssText = `border: 1px black solid;`;
+    pixel.style.cssText = `border: 1px transparent solid;`;
     pixel.style.height = `${+grid.height / +grid.gridSize}px`;
 
     for (let i = 0; i < (grid.gridSize); i++) {
@@ -76,13 +78,11 @@ const brushColorBtn = () => {
     return colorPicker.value;
 }
 
-
 //checkbox actions
 const randomPixelColor = () => {
     let randomNum = () => Math.floor(Math.random() * 255);
     return `rgb(${randomNum()} ${randomNum()} ${randomNum()} / 50%)`;
 }
-
 
 const darkenPixelColor = (eventObj) => {
     console.log(eventObj.target.backgroundColor);//only works for inline html, will be: undefined
@@ -143,11 +143,11 @@ function btnListeners() {
     const buttonArray = document.querySelectorAll(`.btn`);
     buttonArray.forEach((button) => {
         button.addEventListener(`click`, (e) => {
-            console.log(e.target);
-            console.log(e.target.name);
-            console.log(e.target.value);
-            console.log(e.target.checked);
-            console.log(e.target.color);
+            // console.log(e.target);
+            // console.log(e.target.name);
+            // console.log(e.target.value);
+            // console.log(e.target.checked);
+            // console.log(e.target.color);
 
 
             if (e.target.name == clearGridBtn.name) clearGridBtn();

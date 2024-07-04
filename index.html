@@ -11,30 +11,28 @@
 
 <body>
     <header>
-        <h3>Etch-a-Sketch</h3>
+        <h1>Etch-a-Sketch</h1>
     </header>
 
-    <div id="upper-btn-container">
-        <label for="gridRangeSlider"><span>16 x 16</span>:<input id="range-sl" class="btn" name="gridRangeSlider" type="range"
-            min="16" max="100"></label>
-        <!-- <button class="btn" id="grid-size-btn">Grid Size <span>16 x 16</span></button> -->
-        <button class="btn" name="clearGridBtn" id="clear-grid-btn">Clear Grid</button>
+    <div>
+        <div id="upper-btn-container">
+            <label for="gridRangeSlider"><span>16 x 16</span>:<input id="range-sl" class="btn" name="gridRangeSlider" type="range"
+                min="16" max="100" value="16"></label>
+            <!-- <button class="btn" id="grid-size-btn">Grid Size <span>16 x 16</span></button> -->
+            <button class="btn" name="clearGridBtn" id="clear-grid-btn">Clear Grid</button>
+        </div>
+        <div id="grid"></div>
+        <div id="bottom-btn-container">
+            <label for="color-pk">Color:<input id="color-pk" class="bottom-btn" name="brushColorBtn" type="color"
+                    value="#000000"></label>
+            <label for="random-cb">Rainbow:<input id="random-cb" class="bottom-btn" name="randomCb" type="checkbox"></label>
+            <label for="darken-cb">Darken:<input id="darken-cb" class="bottom-btn" name="darkenCb" type="checkbox"></label>
+        </div>
+        <div id="history-container">
+        </div>
     </div>
 
-    <div id="grid"></div>
-
-    <div id="bottom-btn-container">
-        <label for="brushColorBtn">Brush Color:<input id="color-pk" class="btn" name="brushColorBtn" type="color"
-                value="#000000"></label>
-
-        <label for="randomCb">Rainbow:<input id="random-cb" class="btn" name="randomCb" type="checkbox"></label>
-
-        <label for="darkenCb">Darken:<input id="darken-cb" class="btn" name="darkenCb" type="checkbox"></label>
-    </div>
-
-    <div id="history-container">
-        <div class="add-opacity test">test</div>
-    </div>
+    <footer> <a href="https://github.com/gustavords/">&copy; gustavords</a></footer>
 </body>
 
 </html>
