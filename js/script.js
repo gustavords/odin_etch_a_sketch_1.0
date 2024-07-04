@@ -35,8 +35,7 @@ function drawGrid() {
 }
 
 function destroyGrid() {
-    // let pixel = document.querySelectorAll(`.pixel`)
-    let pixelColumn = document.querySelectorAll(`.pixel-column`)
+    let pixelColumn = document.querySelectorAll(`.pixel-column`);
     pixelColumn.forEach((column) => {
         column.remove();
     })
@@ -73,6 +72,7 @@ const clearGridBtn = () => {
 
 const brushColorBtn = () => {
     const colorPicker = document.querySelector(`#color-pk`);
+    colorPicker.style.value = `rgb(0,0,0, .5)`;
     return colorPicker.value;
 }
 
@@ -82,40 +82,51 @@ const randomPixelColor = () => {
     let randomNum = () => Math.floor(Math.random() * 255);
     return `rgb(${randomNum()} ${randomNum()} ${randomNum()} / 50%)`;
 }
-//does not work
-const darkenPixelColor = (rgbColor) => {
 
-    // const getColorValueArray = (color) => {
-    //     const canvas = document.createElement(`canvas`);
-    //     const context = canvas.getContext(`2d`);
-    //     context.fillStyle = color;
-    //     context.fillRect(0,0,1,1);
-    //     return context.getImageData(0,0,1,1).data;
 
-    // }
-    console.log(rgbColor);
-    rgbArr = rgbColor.substring(5, rgbColor.length - 1).replace(/ /g, '').split(',');
-    // rgbArr[3] = +rgbArr[3] * 0.1;
-    let rgb = `rgb(${rgbArr[0]} ${rgbArr[1]} ${rgbArr[2]} ${+rgbArr[3] * 1.1})`
-    console.log(`rgba(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]}, ${+rgbArr[3] * 1.1})`);
-    // ${rgbArr[1]} ${rgbArr[2]} ${+rgbArr[3] *0.1}
-    // let rgb = `rgb (${getColorValueArray[0]} ${getColorValueArray[1]} ${getColorValueArray[2]} / ${ getColorValueArray[3] * .1}%)` 
+const darkenPixelColor = (eventObj) => {
+    console.log(eventObj.target.backgroundColor);//only works for inline html, will be: undefined
 
-    return rgb;
+    //needed for getting a node list from color css property
+    const nameToRgba = (rgb) => {
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        context.fillStyle = rgb;
+        context.fillRect(0, 0, 1, 1);
+        return context.getImageData(0, 0, 1, 1).data;
+    }
+
+    let computedRGB = window.getComputedStyle(eventObj.target).getPropertyValue(`background-color`);
+    let colorArray = Array.from(nameToRgba(computedRGB));
+    let colorAlpha = +((colorArray[colorArray.length - 1]) / 255).toFixed(2);
+    
+    if(colorAlpha == 0){
+        colorAlpha += .1;
+    }
+    else if (colorAlpha < 1) {
+        colorAlpha *= 1.1;
+    }
+    
+    colorArray.splice(3, 1, colorAlpha);
+
+
+    return `rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, ${colorArray[3]})`;
 }
 
 
 //brush/coloring interactions
 function colorPixelAction(eventObj) {
-    if (eventObj.target.classList[0] == `pixel`) {
-        eventObj.target.style.backgroundColor = brushColorBtn();
+    if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#darken-cb`).checked === true) {
+        eventObj.target.style.backgroundColor = darkenPixelColor(eventObj);
     }
-    if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#random-cb`).checked === true) {
+
+    else if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#random-cb`).checked === true) {
         eventObj.target.style.backgroundColor = randomPixelColor();
     }
-    if (eventObj.target.classList[0] == `pixel` && document.querySelector(`#darken-cb`).checked === true) {
-        eventObj.target.style.backgroundColor = darkenPixelColor(eventObj.target.style.backgroundColor);
+    else if (eventObj.target.classList[0] == `pixel`) {
+        eventObj.target.style.backgroundColor = brushColorBtn();
     }
+
 
 }
 
@@ -141,6 +152,7 @@ function btnListeners() {
 
             if (e.target.name == clearGridBtn.name) clearGridBtn();
             if (e.target.name == gridRangeSlider.name) gridRangeSlider();
+
 
         });
     });
